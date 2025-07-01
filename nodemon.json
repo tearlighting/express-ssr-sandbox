@@ -1,0 +1,5 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json,tsx",
+  "exec": "webpack --config webpack.server.ts && node dist/server && webpack --config webpack.client.ts"
+}
