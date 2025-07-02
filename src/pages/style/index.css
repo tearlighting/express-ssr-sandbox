@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@tailwind utilities;
+@import "./home/home.css";
+html,
+body,
+#root {
+  @apply bg-gray-100;
+}

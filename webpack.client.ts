@@ -2,6 +2,7 @@ import { Configuration } from "webpack"
 import path from "path"
 import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
 const config: Configuration = {
   entry: path.resolve(__dirname, "src/client/index.ts"),
   output: {
@@ -18,6 +19,14 @@ const config: Configuration = {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.less$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"],
       },
     ],
   },
@@ -36,6 +45,9 @@ const config: Configuration = {
     //   template: path.resolve(__dirname, "index.html"),
     //   filename: path.resolve(__dirname, "public/index.html"),
     // }),
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[contenthash:5].css",
+    }),
   ],
 }
 export default config
