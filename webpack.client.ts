@@ -3,6 +3,8 @@ import path from "path"
 import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin"
+import CompressionPlugin from "compression-webpack-plugin"
 const config: Configuration = {
   entry: path.resolve(__dirname, "src/client/index.ts"),
   output: {
@@ -48,6 +50,19 @@ const config: Configuration = {
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash:5].css",
     }),
+    new CompressionPlugin({
+      algorithm: "gzip",
+      test: /\.(js|css|html|svg)$/, // 压缩哪些文件
+      threshold: 1024 * 5, // 文件大于多少字节才压缩
+      minRatio: 0.8, // 压缩比阈值
+    }),
   ],
+
+  optimization: {
+    minimizer: [
+      `...`, // 保留 JS 的默认压缩
+      new CssMinimizerPlugin(),
+    ],
+  },
 }
 export default config

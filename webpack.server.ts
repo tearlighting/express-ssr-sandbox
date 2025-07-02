@@ -8,6 +8,7 @@ const config: Configuration = {
     path: path.resolve(__dirname, "dist"),
     filename: "server.js",
   },
+  //保留Node原生的全局__dirname,__filename
   node: {
     __dirname: false,
     __filename: false,
