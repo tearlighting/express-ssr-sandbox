@@ -56,7 +56,7 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
   \***************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst express_1 = __importDefault(__webpack_require__(/*! express */ \"express\"));\nconst render_1 = __webpack_require__(/*! ./render */ \"./src/server/render.ts\");\nconst path_1 = __importDefault(__webpack_require__(/*! path */ \"path\"));\nconst app = (0, express_1.default)();\napp.use(express_1.default.static(path_1.default.resolve(__dirname, \"../public\")));\napp.get(\"/\", render_1.render);\napp.listen(3000 /* EPort.port */, () => {\n    console.log(`listen port ${3000 /* EPort.port */} success`);\n});\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/app.ts?");
+eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst express_1 = __importDefault(__webpack_require__(/*! express */ \"express\"));\nconst render_1 = __webpack_require__(/*! ./render */ \"./src/server/render.ts\");\nconst path_1 = __importDefault(__webpack_require__(/*! path */ \"path\"));\nconst staticGzipExt_1 = __webpack_require__(/*! ./middleWare/staticGzipExt */ \"./src/server/middleWare/staticGzipExt.ts\");\nconst app = (0, express_1.default)();\napp.use((0, staticGzipExt_1.staticGzipExt)(\"../public\"));\napp.use(express_1.default.static(path_1.default.resolve(__dirname, \"../public\")));\napp.get(\"/\", render_1.render);\napp.listen(3000 /* EPort.port */, () => {\n    console.log(`listen port ${3000 /* EPort.port */} success`);\n});\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/app.ts?");
 
 /***/ }),
 
@@ -67,6 +67,16 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__webpack_require__(/*! ./app */ \"./src/server/app.ts\");\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/index.ts?");
+
+/***/ }),
+
+/***/ "./src/server/middleWare/staticGzipExt.ts":
+/*!************************************************!*\
+  !*** ./src/server/middleWare/staticGzipExt.ts ***!
+  \************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.staticGzipExt = void 0;\nconst path_1 = __importDefault(__webpack_require__(/*! path */ \"path\"));\nconst fs_1 = __importDefault(__webpack_require__(/*! fs */ \"fs\"));\nconst staticGzipExt = (staticDir) => {\n    return (req, res, next) => {\n        const reqPath = req.path;\n        if (reqPath.endsWith(\".js\")) {\n            res.set(\"Content-Type\", \"application/javascript\");\n            trySendGzip(path_1.default.join(staticDir, reqPath + \".gz\"), req, res, next);\n        }\n        else if (reqPath.endsWith(\".css\")) {\n            res.set(\"Content-Type\", \"text/css\");\n            trySendGzip(path_1.default.join(staticDir, reqPath + \".gz\"), req, res, next);\n        }\n        else {\n            next();\n        }\n    };\n};\nexports.staticGzipExt = staticGzipExt;\nconst trySendGzip = (path, ...arg) => {\n    if (!fs_1.default.existsSync(path)) {\n        arg[2]();\n        return;\n    }\n    arg[1].set(\"Content-Encoding\", \"gzip\");\n    arg[1].sendFile(path + \".gz\");\n};\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/middleWare/staticGzipExt.ts?");
 
 /***/ }),
 
@@ -117,6 +127,16 @@ eval("\nvar __createBinding = (this && this.__createBinding) || (Object.create ?
 /***/ ((module) => {
 
 module.exports = require("express");
+
+/***/ }),
+
+/***/ "fs":
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
+/***/ ((module) => {
+
+module.exports = require("fs");
 
 /***/ }),
 
