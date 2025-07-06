@@ -2,6 +2,7 @@ import { Configuration } from "webpack"
 import path from "path"
 import nodeExternals from "webpack-node-externals"
 import { CleanWebpackPlugin } from "clean-webpack-plugin"
+
 const config: Configuration = {
   entry: path.resolve(__dirname, "src/index.ts"),
   output: {
@@ -20,6 +21,40 @@ const config: Configuration = {
         use: "ts-loader",
         exclude: /node_modules/,
       },
+      {
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "img/[name].[contenthash:5][ext]",
+          // 只要 URL，实际写文件交给 client bundle
+          emit: false,
+        },
+      },
+      {
+        test: /\.css$/i,
+        exclude: /\.module\.css$/i,
+        use: ["null-loader"],
+      },
+      {
+        test: /\.module\.css$/i,
+        use: [
+          //   "isomorphic-style-loader",
+          //   {
+          //     loader: require.resolve("./tools/inspect-loader.js"),
+          //   },
+          {
+            loader: "css-loader",
+            options: {
+              esModule: false,
+              modules: {
+                exportOnlyLocals: true,
+                localIdentName: "[name]__[local]___[hash:base64:5]",
+              },
+            },
+          },
+          "postcss-loader",
+        ],
+      },
     ],
   },
   resolve: {
@@ -30,6 +65,7 @@ const config: Configuration = {
   },
   mode: "development",
   target: "node",
+  //server端直接去node_modules中找依赖去，不需要打包
   externals: [nodeExternals()],
   plugins: [new CleanWebpackPlugin()],
 }

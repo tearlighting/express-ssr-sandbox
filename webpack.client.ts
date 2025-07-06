@@ -10,6 +10,7 @@ const config: Configuration = {
   output: {
     path: path.resolve(__dirname, "public/"),
     filename: "js/client.[hash:5].js",
+    // clean: true,
   },
   node: {
     __dirname: false,
@@ -24,11 +25,35 @@ const config: Configuration = {
       },
       {
         test: /\.css$/,
+        exclude: /\.module\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.module\.css$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              esModule: false,
+              modules: {
+                localIdentName: "[name]__[local]___[hash:base64:5]",
+              },
+            },
+          },
+          "postcss-loader",
+        ],
       },
       {
         test: /\.less$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "img/[name].[contenthash:5][ext]",
+        },
       },
     ],
   },

@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "prismjs/themes/prism.css";
+@tailwind utilities;
+@import "./global.css";
+@import "./loadCSS/index.css";
+@import "./route/index.css";
