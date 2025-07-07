@@ -1,10 +1,12 @@
-import { StaticHTML, Hydrate, LoadCSS, LoadImage, Route as RouteComponent } from "@/pages"
+import { StaticHTML, Hydrate, LoadCSS, LoadImage, Route as RouteComponent, LoadData, loadHydrateData } from "@/pages"
 import { JSX } from "react"
 
 export interface IPageItem {
   path: string
   name: string
   element: JSX.Element
+  loadData?: () => Promise<any>
+  children?: Array<IPageItem>
 }
 export const pages: Array<IPageItem> = [
   {
@@ -31,5 +33,11 @@ export const pages: Array<IPageItem> = [
     path: "/route",
     name: "route",
     element: <RouteComponent />,
+  },
+  {
+    path: "/loadData",
+    name: "loadData",
+    element: <LoadData />,
+    loadData: loadHydrateData,
   },
 ]

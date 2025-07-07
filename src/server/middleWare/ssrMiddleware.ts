@@ -4,7 +4,7 @@ export const ssrMiddleware = (render: IRender): RequestHandler => {
   return async (req, res, next) => {
     try {
       if (req.method.toUpperCase() === "GET") {
-        console.log(`SSR: ${req.url}`)
+        console.log(`SSR request to ${req.url}`)
 
         if (req.url === "/") {
           return res.redirect(302, "/staticHTML")

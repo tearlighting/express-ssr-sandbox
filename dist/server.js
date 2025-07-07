@@ -64,6 +64,17 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexpo
 
 /***/ }),
 
+/***/ "./src/context/SSRContext.tsx":
+/*!************************************!*\
+  !*** ./src/context/SSRContext.tsx ***!
+  \************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.useSSRInfo = exports.SSRProvider = void 0;\nconst jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ \"react/jsx-runtime\");\nconst react_1 = __webpack_require__(/*! react */ \"react\");\nconst context = (0, react_1.createContext)(new Map());\nconst SSRProvider = ({ children, value }) => {\n    const [hydrateData] = (0, react_1.useState)(() => {\n        return value ?? new Map();\n    });\n    return (0, jsx_runtime_1.jsx)(context.Provider, { value: hydrateData, children: children });\n};\nexports.SSRProvider = SSRProvider;\nconst useSSRInfo = () => {\n    const item = (0, react_1.useContext)(context);\n    if (!item) {\n        throw new Error(\"useSSRInfo must be used within a SSRProvider\");\n    }\n    return item;\n};\nexports.useSSRInfo = useSSRInfo;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/context/SSRContext.tsx?");
+
+/***/ }),
+
 /***/ "./src/hooks/useCurrentRoute.ts":
 /*!**************************************!*\
   !*** ./src/hooks/useCurrentRoute.ts ***!
@@ -119,6 +130,17 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 
 /***/ }),
 
+/***/ "./src/pages/LoadData.tsx":
+/*!********************************!*\
+  !*** ./src/pages/LoadData.tsx ***!
+  \********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.loadHydrateData = loadHydrateData;\nexports.LoadData = LoadData;\nconst jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ \"react/jsx-runtime\");\nconst Structure_1 = __webpack_require__(/*! @/component/Structure */ \"./src/component/Structure.tsx\");\nconst SSRContext_1 = __webpack_require__(/*! @/context/SSRContext */ \"./src/context/SSRContext.tsx\");\nconst request_1 = __webpack_require__(/*! @/utils/request */ \"./src/utils/request.ts\");\nconst react_1 = __webpack_require__(/*! react */ \"react\");\nconst loadData_1 = __webpack_require__(/*! @/utils/loadData */ \"./src/utils/loadData.ts\");\nconst prismjs_1 = __webpack_require__(/*! prismjs */ \"prismjs\");\nconst { serverCodeStr, clientCodeStr } = (0, loadData_1.getLoadDataCode)();\nfunction loadHydrateData(id = 1) {\n    return (0, request_1.request)({\n        url: `/api/${id}`,\n    });\n}\nfunction LoadData() {\n    const cacheMap = (0, SSRContext_1.useSSRInfo)();\n    const [renderData, setRenderData] = (0, react_1.useState)(() => {\n        if (cacheMap?.has?.(\"loadData\")) {\n            return cacheMap.get(\"loadData\");\n        }\n        return null;\n    });\n    const coutRef = (0, react_1.useRef)(2);\n    const requestData = (0, react_1.useCallback)(() => {\n        loadHydrateData(coutRef.current++).then((res) => {\n            setRenderData(() => res);\n        });\n    }, []);\n    const isInitedRef = (0, react_1.useRef)(false);\n    (0, react_1.useEffect)(() => {\n        if (!isInitedRef.current) {\n            if (!renderData) {\n                requestData();\n            }\n            isInitedRef.current = true;\n        }\n    }, []);\n    (0, react_1.useEffect)(() => {\n        (0, prismjs_1.highlightAll)();\n    }, [renderData]);\n    return ((0, jsx_runtime_1.jsx)(Structure_1.Structure, { content: (0, jsx_runtime_1.jsxs)(\"div\", { className: \"max-h-[100%] overflow-y-hidden flex flex-col flex-wrap  shadow-[0_0_0_10px_#fff]\", children: [(0, jsx_runtime_1.jsx)(\"pre\", { className: \"language-javascript\", children: (0, jsx_runtime_1.jsx)(\"code\", { className: \"language-javascript\", children: `\r\n  {\r\n    userId: ${renderData?.userId},\r\n    id: ${renderData?.id}\r\n  }\r\n              ` }) }), (0, jsx_runtime_1.jsx)(\"button\", { className: \" bg-blue-400 px-4 py-2 rounded-full\", onClick: requestData, children: \"request\" })] }), footer: (0, jsx_runtime_1.jsxs)(\"div\", { className: \"h-full overflow-y-auto overflow-x-hidden\", children: [(0, jsx_runtime_1.jsx)(\"p\", { children: \"client\" }), (0, jsx_runtime_1.jsx)(\"pre\", { className: \"language-javascript\", children: (0, jsx_runtime_1.jsx)(\"code\", { className: \"language-javascript\", dangerouslySetInnerHTML: { __html: clientCodeStr } }) }), (0, jsx_runtime_1.jsx)(\"p\", { children: \"server\" }), (0, jsx_runtime_1.jsx)(\"pre\", { className: \"language-javascript\", children: (0, jsx_runtime_1.jsx)(\"code\", { className: \"language-javascript\", dangerouslySetInnerHTML: { __html: serverCodeStr } }) })] }) }));\n}\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/pages/LoadData.tsx?");
+
+/***/ }),
+
 /***/ "./src/pages/LoadImage.tsx":
 /*!*********************************!*\
   !*** ./src/pages/LoadImage.tsx ***!
@@ -148,7 +170,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexpo
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.StaticHTML = StaticHTML;\nconst jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ \"react/jsx-runtime\");\nconst Structure_1 = __webpack_require__(/*! ../component/Structure */ \"./src/component/Structure.tsx\");\nconst staticHTML_1 = __webpack_require__(/*! @/utils/staticHTML */ \"./src/utils/staticHTML.ts\");\nconst { serverCodeStr } = (0, staticHTML_1.getCreateStaticHTML)();\nfunction StaticHTML() {\n    return ((0, jsx_runtime_1.jsx)(Structure_1.Structure, { content: (0, jsx_runtime_1.jsx)(\"h1\", { className: \"text-2xl font-bold\", children: \"hellow SSR\" }), footer: (0, jsx_runtime_1.jsxs)(\"div\", { className: \"h-full overflow-y-auto overflow-x-hidden\", children: [(0, jsx_runtime_1.jsx)(\"p\", { children: \"server\" }), (0, jsx_runtime_1.jsx)(\"pre\", { className: \"language-javascript\", children: (0, jsx_runtime_1.jsx)(\"code\", { className: \"language-javascript\", dangerouslySetInnerHTML: { __html: serverCodeStr } }) })] }) }));\n}\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/pages/StaticHTML.tsx?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.StaticHTML = StaticHTML;\nconst jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ \"react/jsx-runtime\");\nconst react_1 = __webpack_require__(/*! react */ \"react\");\nconst Structure_1 = __webpack_require__(/*! ../component/Structure */ \"./src/component/Structure.tsx\");\nconst prismjs_1 = __webpack_require__(/*! prismjs */ \"prismjs\");\nconst staticHTML_1 = __webpack_require__(/*! @/utils/staticHTML */ \"./src/utils/staticHTML.ts\");\nconst { serverCodeStr } = (0, staticHTML_1.getCreateStaticHTML)();\nfunction StaticHTML() {\n    (0, react_1.useEffect)(() => {\n        (0, prismjs_1.highlightAll)();\n    }, []);\n    return ((0, jsx_runtime_1.jsx)(Structure_1.Structure, { content: (0, jsx_runtime_1.jsx)(\"pre\", { children: (0, jsx_runtime_1.jsx)(\"code\", { className: \"language-javascript\", children: `console.log('Hello, SSR!');` }) }), footer: (0, jsx_runtime_1.jsxs)(\"div\", { className: \"h-full overflow-y-auto overflow-x-hidden\", children: [(0, jsx_runtime_1.jsx)(\"p\", { children: \"server\" }), (0, jsx_runtime_1.jsx)(\"pre\", { className: \"language-javascript\", children: (0, jsx_runtime_1.jsx)(\"code\", { className: \"language-javascript\", dangerouslySetInnerHTML: { __html: serverCodeStr } }) })] }) }));\n}\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/pages/StaticHTML.tsx?");
 
 /***/ }),
 
@@ -159,7 +181,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexpo
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    var desc = Object.getOwnPropertyDescriptor(m, k);\n    if (!desc || (\"get\" in desc ? !m.__esModule : desc.writable || desc.configurable)) {\n      desc = { enumerable: true, get: function() { return m[k]; } };\n    }\n    Object.defineProperty(o, k2, desc);\n}) : (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    o[k2] = m[k];\n}));\nvar __exportStar = (this && this.__exportStar) || function(m, exports) {\n    for (var p in m) if (p !== \"default\" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__exportStar(__webpack_require__(/*! ./Hydrate */ \"./src/pages/Hydrate.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./LoadCSS */ \"./src/pages/LoadCSS.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./LoadImage */ \"./src/pages/LoadImage.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./Route */ \"./src/pages/Route.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./StaticHTML */ \"./src/pages/StaticHTML.tsx\"), exports);\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/pages/index.ts?");
+eval("\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    var desc = Object.getOwnPropertyDescriptor(m, k);\n    if (!desc || (\"get\" in desc ? !m.__esModule : desc.writable || desc.configurable)) {\n      desc = { enumerable: true, get: function() { return m[k]; } };\n    }\n    Object.defineProperty(o, k2, desc);\n}) : (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    o[k2] = m[k];\n}));\nvar __exportStar = (this && this.__exportStar) || function(m, exports) {\n    for (var p in m) if (p !== \"default\" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__exportStar(__webpack_require__(/*! ./Hydrate */ \"./src/pages/Hydrate.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./LoadCSS */ \"./src/pages/LoadCSS.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./LoadImage */ \"./src/pages/LoadImage.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./Route */ \"./src/pages/Route.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./StaticHTML */ \"./src/pages/StaticHTML.tsx\"), exports);\n__exportStar(__webpack_require__(/*! ./LoadData */ \"./src/pages/LoadData.tsx\"), exports);\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/pages/index.ts?");
 
 /***/ }),
 
@@ -181,7 +203,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\ncons
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.pages = void 0;\nconst jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ \"react/jsx-runtime\");\nconst pages_1 = __webpack_require__(/*! @/pages */ \"./src/pages/index.ts\");\nexports.pages = [\n    {\n        path: \"/staticHTML\",\n        name: \"static HTML\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.StaticHTML, {}),\n    },\n    {\n        path: \"/hydrate\",\n        name: \"hydrate\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.Hydrate, {}),\n    },\n    {\n        path: \"/loadCSS\",\n        name: \"loadCSS\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.LoadCSS, {}),\n    },\n    {\n        path: \"/loadImage\",\n        name: \"loadImage\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.LoadImage, {}),\n    },\n    {\n        path: \"/route\",\n        name: \"route\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.Route, {}),\n    },\n];\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/route/settings.tsx?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.pages = void 0;\nconst jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ \"react/jsx-runtime\");\nconst pages_1 = __webpack_require__(/*! @/pages */ \"./src/pages/index.ts\");\nexports.pages = [\n    {\n        path: \"/staticHTML\",\n        name: \"static HTML\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.StaticHTML, {}),\n    },\n    {\n        path: \"/hydrate\",\n        name: \"hydrate\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.Hydrate, {}),\n    },\n    {\n        path: \"/loadCSS\",\n        name: \"loadCSS\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.LoadCSS, {}),\n    },\n    {\n        path: \"/loadImage\",\n        name: \"loadImage\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.LoadImage, {}),\n    },\n    {\n        path: \"/route\",\n        name: \"route\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.Route, {}),\n    },\n    {\n        path: \"/loadData\",\n        name: \"loadData\",\n        element: (0, jsx_runtime_1.jsx)(pages_1.LoadData, {}),\n        loadData: pages_1.loadHydrateData,\n    },\n];\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/route/settings.tsx?");
 
 /***/ }),
 
@@ -192,7 +214,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexpo
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ \"react/jsx-runtime\");\nconst route_1 = __importDefault(__webpack_require__(/*! @/route */ \"./src/route/index.tsx\"));\nconst react_router_1 = __webpack_require__(/*! react-router */ \"react-router\");\nconst RouterContext_1 = __webpack_require__(/*! @/context/RouterContext */ \"./src/context/RouterContext.tsx\");\nconst App = ({ context, path }) => {\n    return ((0, jsx_runtime_1.jsx)(react_router_1.StaticRouter, { location: path, children: (0, jsx_runtime_1.jsx)(RouterContext_1.RouterProvider, { children: route_1.default }) }));\n};\nexports[\"default\"] = App;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/App.tsx?");
+eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ \"react/jsx-runtime\");\nconst route_1 = __importDefault(__webpack_require__(/*! @/route */ \"./src/route/index.tsx\"));\nconst react_router_1 = __webpack_require__(/*! react-router */ \"react-router\");\nconst RouterContext_1 = __webpack_require__(/*! @/context/RouterContext */ \"./src/context/RouterContext.tsx\");\nconst SSRContext_1 = __webpack_require__(/*! @/context/SSRContext */ \"./src/context/SSRContext.tsx\");\nconst App = ({ context, path }) => {\n    return ((0, jsx_runtime_1.jsx)(react_router_1.StaticRouter, { location: path, children: (0, jsx_runtime_1.jsx)(SSRContext_1.SSRProvider, { value: context, children: (0, jsx_runtime_1.jsx)(RouterContext_1.RouterProvider, { children: route_1.default }) }) }));\n};\nexports[\"default\"] = App;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/App.tsx?");
 
 /***/ }),
 
@@ -207,6 +229,17 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__we
 
 /***/ }),
 
+/***/ "./src/server/middleWare/apiMiddleWare.ts":
+/*!************************************************!*\
+  !*** ./src/server/middleWare/apiMiddleWare.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.apiMiddleWare = void 0;\nconst request_1 = __webpack_require__(/*! @/utils/request */ \"./src/utils/request.ts\");\nconst apiMiddleWare = () => {\n    return async (req, res, next) => {\n        if (req.path.startsWith(\"/api\")) {\n            const result = await (0, request_1.request)({\n                url: req.path.replace(/^\\/api/, \"/posts\"),\n                method: req.method,\n                params: req.query,\n                data: req.body,\n            });\n            res.status(200).json(result);\n        }\n        else {\n            next();\n        }\n    };\n};\nexports.apiMiddleWare = apiMiddleWare;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/middleWare/apiMiddleWare.ts?");
+
+/***/ }),
+
 /***/ "./src/server/middleWare/error.ts":
 /*!****************************************!*\
   !*** ./src/server/middleWare/error.ts ***!
@@ -214,7 +247,18 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__we
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.errorHandler = errorHandler;\nfunction errorHandler() {\n    return function (err, request, response, next) {\n        try {\n            response.status(400).send(\"Internal Server Error\");\n        }\n        catch (e) {\n            console.log(e);\n            response.status(500).send(\"Internal Server Error\");\n        }\n    };\n}\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/middleWare/error.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.errorHandler = errorHandler;\nfunction errorHandler() {\n    return function (err, request, response, next) {\n        try {\n            response.status(400).send(\"Internal Server Error\");\n        }\n        catch (e) {\n            // console.log(e)\n            response.status(500).send(\"Internal Server Error\");\n        }\n    };\n}\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/middleWare/error.ts?");
+
+/***/ }),
+
+/***/ "./src/server/middleWare/index.ts":
+/*!****************************************!*\
+  !*** ./src/server/middleWare/index.ts ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    var desc = Object.getOwnPropertyDescriptor(m, k);\n    if (!desc || (\"get\" in desc ? !m.__esModule : desc.writable || desc.configurable)) {\n      desc = { enumerable: true, get: function() { return m[k]; } };\n    }\n    Object.defineProperty(o, k2, desc);\n}) : (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    o[k2] = m[k];\n}));\nvar __exportStar = (this && this.__exportStar) || function(m, exports) {\n    for (var p in m) if (p !== \"default\" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__exportStar(__webpack_require__(/*! ./apiMiddleWare */ \"./src/server/middleWare/apiMiddleWare.ts\"), exports);\n__exportStar(__webpack_require__(/*! ./error */ \"./src/server/middleWare/error.ts\"), exports);\n__exportStar(__webpack_require__(/*! ./ssrMiddleware */ \"./src/server/middleWare/ssrMiddleware.ts\"), exports);\n__exportStar(__webpack_require__(/*! ./staticGzipExt */ \"./src/server/middleWare/staticGzipExt.ts\"), exports);\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/middleWare/index.ts?");
 
 /***/ }),
 
@@ -225,7 +269,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexpo
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.ssrMiddleware = void 0;\nconst ssrMiddleware = (render) => {\n    return async (req, res, next) => {\n        try {\n            if (req.method.toUpperCase() === \"GET\") {\n                console.log(`SSR: ${req.url}`);\n                if (req.url === \"/\") {\n                    return res.redirect(302, \"/staticHTML\");\n                }\n                const html = await render({ path: req.url });\n                res.status(200).send(html);\n            }\n            else {\n                next();\n            }\n        }\n        catch (err) {\n            console.error(\"SSR Error:\", err);\n            next(err);\n        }\n    };\n};\nexports.ssrMiddleware = ssrMiddleware;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/middleWare/ssrMiddleware.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.ssrMiddleware = void 0;\nconst ssrMiddleware = (render) => {\n    return async (req, res, next) => {\n        try {\n            if (req.method.toUpperCase() === \"GET\") {\n                console.log(`SSR request to ${req.url}`);\n                if (req.url === \"/\") {\n                    return res.redirect(302, \"/staticHTML\");\n                }\n                const html = await render({ path: req.url });\n                res.status(200).send(html);\n            }\n            else {\n                next();\n            }\n        }\n        catch (err) {\n            console.error(\"SSR Error:\", err);\n            next(err);\n        }\n    };\n};\nexports.ssrMiddleware = ssrMiddleware;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/middleWare/ssrMiddleware.ts?");
 
 /***/ }),
 
@@ -247,7 +291,7 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.render = void 0;\nconst server_1 = __webpack_require__(/*! react-dom/server */ \"react-dom/server\");\nconst App_1 = __importDefault(__webpack_require__(/*! ./App */ \"./src/server/App.tsx\"));\nconst promises_1 = __importDefault(__webpack_require__(/*! fs/promises */ \"fs/promises\"));\nconst path_1 = __importDefault(__webpack_require__(/*! path */ \"path\"));\nconst utils_1 = __webpack_require__(/*! ./utils */ \"./src/server/utils/index.ts\");\nconst getLinks_1 = __webpack_require__(/*! ./utils/getLinks */ \"./src/server/utils/getLinks.ts\");\nconst react_1 = __webpack_require__(/*! react */ \"react\");\nconst initialData = {};\nconst render = async ({ path: location }) => {\n    const html = await promises_1.default.readFile(path_1.default.resolve(__dirname, \"../index.html\"), \"utf-8\");\n    const component = (0, server_1.renderToString)((0, react_1.createElement)(App_1.default, {\n        path: location,\n        context: initialData,\n    }));\n    const scripts = await (0, utils_1.getScripts)(path_1.default.resolve(__dirname, \"../public/js\"));\n    const links = await (0, getLinks_1.getLinks)(path_1.default.resolve(__dirname, \"../public/css\"));\n    return html.replace(\"<!--SSR_HTML-->\", component).replace(\"<!--SSR_DATA-->\", JSON.stringify(initialData)).replace(\"<!--SSR_SCRIPT-->\", scripts.join()).replace(\"<!--SSR_LINK-->\", links.join());\n};\nexports.render = render;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/render.ts?");
+eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.render = void 0;\nconst server_1 = __webpack_require__(/*! react-dom/server */ \"react-dom/server\");\nconst App_1 = __importDefault(__webpack_require__(/*! ./App */ \"./src/server/App.tsx\"));\nconst promises_1 = __importDefault(__webpack_require__(/*! fs/promises */ \"fs/promises\"));\nconst path_1 = __importDefault(__webpack_require__(/*! path */ \"path\"));\nconst utils_1 = __webpack_require__(/*! ./utils */ \"./src/server/utils/index.ts\");\nconst react_1 = __webpack_require__(/*! react */ \"react\");\nconst qs_1 = __importDefault(__webpack_require__(/*! qs */ \"qs\"));\nconst map2Record_1 = __webpack_require__(/*! ./utils/map2Record */ \"./src/server/utils/map2Record.ts\");\nconst render = async ({ path: location }) => {\n    const loadData = (await Promise.all((0, utils_1.getLoadData)(location))).map(({ name, data }) => [name, data]);\n    const initialData = new Map(loadData);\n    console.log(initialData, loadData);\n    const html = await promises_1.default.readFile(path_1.default.resolve(__dirname, \"../index.html\"), \"utf-8\");\n    const component = (0, server_1.renderToString)((0, react_1.createElement)(App_1.default, {\n        path: location,\n        context: initialData,\n    }));\n    const scripts = await (0, utils_1.getScripts)(path_1.default.resolve(__dirname, \"../public/js\"));\n    const links = await (0, utils_1.getLinks)(path_1.default.resolve(__dirname, \"../public/css\"));\n    return html\n        .replace(\"<!--SSR_HTML-->\", component)\n        .replace(\"<!--SSR_DATA-->\", `${JSON.stringify(qs_1.default.stringify((0, map2Record_1.map2Record)(initialData)))}`)\n        .replace(\"<!--SSR_SCRIPT-->\", scripts.join())\n        .replace(\"<!--SSR_LINK-->\", links.join());\n};\nexports.render = render;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/render.ts?");
 
 /***/ }),
 
@@ -258,7 +302,7 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst express_1 = __importDefault(__webpack_require__(/*! express */ \"express\"));\nconst render_1 = __webpack_require__(/*! ./render */ \"./src/server/render.ts\");\nconst path_1 = __importDefault(__webpack_require__(/*! path */ \"path\"));\nconst staticGzipExt_1 = __webpack_require__(/*! ./middleWare/staticGzipExt */ \"./src/server/middleWare/staticGzipExt.ts\");\nconst error_1 = __webpack_require__(/*! ./middleWare/error */ \"./src/server/middleWare/error.ts\");\nconst ssrMiddleware_1 = __webpack_require__(/*! ./middleWare/ssrMiddleware */ \"./src/server/middleWare/ssrMiddleware.ts\");\nconst app = (0, express_1.default)();\napp.use((0, staticGzipExt_1.staticGzipExt)(\"../public\"));\napp.use(express_1.default.static(path_1.default.resolve(__dirname, \"../public\")));\napp.use((0, ssrMiddleware_1.ssrMiddleware)(render_1.render));\napp.use((0, error_1.errorHandler)());\napp.listen(3000 /* EPort.port */, () => {\n    console.log(`listen port ${3000 /* EPort.port */} success`);\n});\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/server.ts?");
+eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst express_1 = __importDefault(__webpack_require__(/*! express */ \"express\"));\nconst render_1 = __webpack_require__(/*! ./render */ \"./src/server/render.ts\");\nconst path_1 = __importDefault(__webpack_require__(/*! path */ \"path\"));\nconst middleWare_1 = __webpack_require__(/*! ./middleWare */ \"./src/server/middleWare/index.ts\");\nconst app = (0, express_1.default)();\napp.use((0, middleWare_1.staticGzipExt)(\"../public\"));\napp.use(express_1.default.static(path_1.default.resolve(__dirname, \"../public\")));\napp.use((0, middleWare_1.apiMiddleWare)());\napp.use((0, middleWare_1.ssrMiddleware)(render_1.render));\napp.use((0, middleWare_1.errorHandler)());\napp.listen(3000 /* EPort.port */, () => {\n    console.log(`listen port ${3000 /* EPort.port */} success`);\n});\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/server.ts?");
 
 /***/ }),
 
@@ -270,6 +314,17 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 
 "use strict";
 eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.getLinks = void 0;\nconst promises_1 = __importDefault(__webpack_require__(/*! fs/promises */ \"fs/promises\"));\nconst getLinks = async (path) => {\n    const files = await promises_1.default.readdir(path);\n    const scripts = files\n        .filter((file) => file.endsWith(\".css\"))\n        .map((file) => `\r\n   <link rel=\"stylesheet\" href=\"/css/${file}\" />\r\n   `);\n    return scripts;\n};\nexports.getLinks = getLinks;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/utils/getLinks.ts?");
+
+/***/ }),
+
+/***/ "./src/server/utils/getLoadData.ts":
+/*!*****************************************!*\
+  !*** ./src/server/utils/getLoadData.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.getLoadData = void 0;\nconst settings_1 = __webpack_require__(/*! @/route/settings */ \"./src/route/settings.tsx\");\nconst getLoadData = (location) => {\n    const res = [];\n    for (const page of settings_1.pages) {\n        if (location === page.path || location.startsWith(page.path)) {\n            page.loadData &&\n                res.push(Promise.resolve((async () => {\n                    const { userId = null, id = null } = await page.loadData?.();\n                    const name = page.name;\n                    return {\n                        name,\n                        data: {\n                            userId,\n                            id,\n                        },\n                    };\n                })()));\n            //to do nest route\n            //   if(page.children){\n            //     res.push(...matchRoutes(location))\n            //   }\n        }\n    }\n    return res;\n};\nexports.getLoadData = getLoadData;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/utils/getLoadData.ts?");
 
 /***/ }),
 
@@ -291,7 +346,18 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    var desc = Object.getOwnPropertyDescriptor(m, k);\n    if (!desc || (\"get\" in desc ? !m.__esModule : desc.writable || desc.configurable)) {\n      desc = { enumerable: true, get: function() { return m[k]; } };\n    }\n    Object.defineProperty(o, k2, desc);\n}) : (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    o[k2] = m[k];\n}));\nvar __exportStar = (this && this.__exportStar) || function(m, exports) {\n    for (var p in m) if (p !== \"default\" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__exportStar(__webpack_require__(/*! ./getScripts */ \"./src/server/utils/getScripts.ts\"), exports);\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/utils/index.ts?");
+eval("\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    var desc = Object.getOwnPropertyDescriptor(m, k);\n    if (!desc || (\"get\" in desc ? !m.__esModule : desc.writable || desc.configurable)) {\n      desc = { enumerable: true, get: function() { return m[k]; } };\n    }\n    Object.defineProperty(o, k2, desc);\n}) : (function(o, m, k, k2) {\n    if (k2 === undefined) k2 = k;\n    o[k2] = m[k];\n}));\nvar __exportStar = (this && this.__exportStar) || function(m, exports) {\n    for (var p in m) if (p !== \"default\" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n__exportStar(__webpack_require__(/*! ./getScripts */ \"./src/server/utils/getScripts.ts\"), exports);\n__exportStar(__webpack_require__(/*! ./getLinks */ \"./src/server/utils/getLinks.ts\"), exports);\n__exportStar(__webpack_require__(/*! ./getLoadData */ \"./src/server/utils/getLoadData.ts\"), exports);\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/utils/index.ts?");
+
+/***/ }),
+
+/***/ "./src/server/utils/map2Record.ts":
+/*!****************************************!*\
+  !*** ./src/server/utils/map2Record.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.map2Record = void 0;\nconst map2Record = (map) => {\n    const keys = map.keys();\n    const res = {};\n    for (let key of keys) {\n        res[key] = map.get(key);\n    }\n    return res;\n};\nexports.map2Record = map2Record;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/server/utils/map2Record.ts?");
 
 /***/ }),
 
@@ -327,6 +393,17 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 
 /***/ }),
 
+/***/ "./src/utils/loadData.ts":
+/*!*******************************!*\
+  !*** ./src/utils/loadData.ts ***!
+  \*******************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.getLoadDataCode = exports.dataContent = void 0;\nconst prismjs_1 = __importDefault(__webpack_require__(/*! prismjs */ \"prismjs\"));\nconst dataContent = ({ userId = \"null\", id = \"null\" } = {}) => {\n    return prismjs_1.default.highlight(JSON.stringify({ userId, id }), prismjs_1.default.languages.javascript, \"javascript\");\n};\nexports.dataContent = dataContent;\nconst serverCode = () => {\n    return `\r\n\r\n  //add middleware use like proxy\r\n  export const apiMiddleWare = (): RequestHandler => {\r\n    return async (req, res, next) => {\r\n      if (req.path.startsWith(\"/api\")) {\r\n        const result = await request<Record<string, any>>({\r\n          url: req.path.replace(/^\\/api/, \"/posts\"),\r\n          method: req.method as any, \r\n          params: req.query,\r\n          data: req.body,\r\n        })\r\n        res.status(200).json(result)\r\n      } else {\r\n        next()\r\n      }\r\n    }\r\n  }\r\n    //server.ts\r\n    const app = express()\r\n    app.use(staticGzipExt(\"../public\"))\r\n    app.use(express.static(path.resolve(__dirname, \"../public\")))\r\n    app.use(apiMiddleWare())\r\n    app.use(ssrMiddleware(render))\r\n    app.use(errorHandler())\r\n    app.listen(EPort.port)\r\n\r\n  //render.ts\r\n  export const render: IRender = async ({ path: location }) => {\r\n\r\n  const initialData: THydrateContext = new Map((await Promise.all(getLoadData(location))).map(({ name, data }) => [name, data]))\r\n\r\n  const html = await fs.readFile(path.resolve(__dirname, \"../index.html\"), \"utf-8\")\r\n  const component = renderToString(\r\n    createElement(App, {\r\n      path: location,\r\n      context: initialData,\r\n    })\r\n  )\r\n    ...\r\n  }\r\n    `;\n};\nconst clientCode = () => {\n    return `\r\n      //route.ts\r\n      export interface IPageItem {\r\n        path: string\r\n        name: string\r\n        element: JSX.Element\r\n        loadData?: () => Promise<any>\r\n        children?: Array<IPageItem>\r\n      }\r\n      export const pages: Array<IPageItem> = [  {\r\n            path: \"/loadData\",\r\n            name: \"loadData\",\r\n            element: <LoadData />,\r\n            loadData: loadHydrateData,\r\n          }\r\n     ]\r\n\r\n     //client.ts\r\n     const initData = () => {\r\n        if (window?.__INITIAL_DATA__?.length) {\r\n            return new Map(Object.entries(qs.parse(window.__INITIAL_DATA__)) as any) as TSSRCacheData\r\n        }\r\n        return new Map() as TSSRCacheData\r\n     }\r\n\r\n    hydrateRoot(\r\n         document.getElementById(\"root\") as any,\r\n         createElement(App, {\r\n             path: \"/\",\r\n            context: initData(),\r\n        })\r\n    )\r\n    `;\n};\nconst getLoadDataCode = () => {\n    const serverCodeStr = prismjs_1.default.highlight(serverCode(), prismjs_1.default.languages.javascript, \"javascript\");\n    const clientCodeStr = prismjs_1.default.highlight(clientCode(), prismjs_1.default.languages.javascript, \"javascript\");\n    //   const webpackCodeStr = Prism.highlight(webpackCode(), Prism.languages.javascript, \"javascript\")\n    return {\n        serverCodeStr,\n        clientCodeStr,\n    };\n};\nexports.getLoadDataCode = getLoadDataCode;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/utils/loadData.ts?");
+
+/***/ }),
+
 /***/ "./src/utils/loadImg.ts":
 /*!******************************!*\
   !*** ./src/utils/loadImg.ts ***!
@@ -335,6 +412,17 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 
 "use strict";
 eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.getLoadImgCode = void 0;\nconst prismjs_1 = __importDefault(__webpack_require__(/*! prismjs */ \"prismjs\"));\nconst clientCode = () => {\n    return `\r\n  //React\r\n import bell from \"@/asset/bell.jpg\"\r\n\r\n <img src={bell} alt=\"\" className=\"object-cover w-32 h-32\" />\r\n\r\n //Css\r\n .bell-background {\r\n    background: url(\"@/asset/bell.jpg\") no-repeat;\r\n  }\r\n\r\n  <div className=\"bell-background\">img</div>\r\n)`;\n};\nconst webpackCode = () => {\n    return `\r\n    //webpack.client.ts\r\n    {\r\n        test: /\\.(png|jpe?g|gif|svg|webp)$/i,\r\n        type: \"asset/resource\",\r\n        generator: {\r\n          filename: \"img/[name].[contenthash:5][ext]\",\r\n        },\r\n      },\r\n\t \r\n\t  //webpack.server.ts\r\n\t {\r\n        test: /\\.(png|jpe?g|gif|svg|webp)$/i,\r\n        type: \"asset/resource\",\r\n        generator: {\r\n          filename: \"img/[name].[contenthash:5][ext]\",\r\n          // 只要 URL，实际写文件交给 client bundle\r\n          emit: false,\r\n        },\r\n      },\r\n\r\n}`;\n};\nconst getLoadImgCode = () => {\n    const clientCodeStr = prismjs_1.default.highlight(clientCode(), prismjs_1.default.languages.javascript, \"javascript\");\n    const webpackCodeStr = prismjs_1.default.highlight(webpackCode(), prismjs_1.default.languages.javascript, \"javascript\");\n    return {\n        clientCodeStr,\n        webpackCodeStr,\n    };\n};\nexports.getLoadImgCode = getLoadImgCode;\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/utils/loadImg.ts?");
+
+/***/ }),
+
+/***/ "./src/utils/request.ts":
+/*!******************************!*\
+  !*** ./src/utils/request.ts ***!
+  \******************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.request = void 0;\nconst axios_1 = __importDefault(__webpack_require__(/*! axios */ \"axios\"));\nclass AxiosHelper {\n    _ins;\n    constructor(baseURL) {\n        this._ins = axios_1.default.create({\n            baseURL,\n        });\n        this._ins.interceptors.request.use((config) => {\n            // do any thing you want\n            if (config.baseURL === \"https://jsonplaceholder.typicode.com\" /* EServer.url */ && config.url?.startsWith(\"/api\")) {\n                config.url = config.url?.replace(\"/api\", \"/posts\");\n            }\n            return config;\n        });\n        this._ins.interceptors.response.use((response) => {\n            return response.data;\n        });\n    }\n    request(config) {\n        return this._ins.request(config);\n    }\n}\nfunction createRequest() {\n    let ins;\n    if (typeof window === \"undefined\") {\n        ins = new AxiosHelper(\"https://jsonplaceholder.typicode.com\" /* EServer.url */);\n    }\n    else {\n        ins = new AxiosHelper(\"/\");\n    }\n    return ins.request.bind(ins);\n}\nexports.request = createRequest();\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/utils/request.ts?");
 
 /***/ }),
 
@@ -357,6 +445,17 @@ eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {
 
 "use strict";
 eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.getCreateStaticHTML = getCreateStaticHTML;\nconst prismjs_1 = __importDefault(__webpack_require__(/*! prismjs */ \"prismjs\"));\nfunction serverCode() {\n    const code = `const initialData: IHydrateContext = {}\r\nexport const render: RequestHandler = async (req, res) => {\r\n  const html = await fs.readFile(path.resolve(__dirname, \"../index.html\"), \"utf-8\")\r\n  const component = renderToString(\r\n    createElement(App, {\r\n      path: \"/\",\r\n      context: initialData,\r\n    })\r\n  )\r\n  const scripts = await getScripts(path.resolve(__dirname, \"../public/js\"))\r\n  const links = await getLinks(path.resolve(__dirname, \"../public/css\"))\r\n  res.send(html.replace(\"<!--SSR_HTML-->\", component).replace(\"<!--SSR_DATA-->\", JSON.stringify(initialData))\r\n  .replace(\"<!--SSR_SCRIPT-->\", scripts.join()).replace(\"<!--SSR_LINK-->\", links.join()))\r\n}`;\n    return code;\n}\nfunction clientCode() {\n    return `\r\nhydrateRoot(\r\n  document.getElementById(\"root\"),\r\n  createElement(App, {\r\n    path: \"/\",\r\n    context: window.__INITIAL_DATA__,\r\n  })\r\n)`;\n}\nfunction getCreateStaticHTML() {\n    const code = serverCode();\n    const serverCodeStr = prismjs_1.default.highlight(code, prismjs_1.default.languages.javascript, \"javascript\");\n    const clientCodeStr = prismjs_1.default.highlight(clientCode(), prismjs_1.default.languages.javascript, \"javascript\");\n    return {\n        serverCodeStr,\n        clientCodeStr,\n    };\n}\n\n\n//# sourceURL=webpack://express-ssr-sandbox/./src/utils/staticHTML.ts?");
+
+/***/ }),
+
+/***/ "axios":
+/*!************************!*\
+  !*** external "axios" ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("axios");
 
 /***/ }),
 
@@ -423,6 +522,17 @@ module.exports = require("path");
 
 "use strict";
 module.exports = require("prismjs");
+
+/***/ }),
+
+/***/ "qs":
+/*!*********************!*\
+  !*** external "qs" ***!
+  \*********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("qs");
 
 /***/ }),
 

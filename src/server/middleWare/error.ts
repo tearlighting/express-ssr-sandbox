@@ -5,7 +5,7 @@ export function errorHandler(): ErrorRequestHandler {
     try {
       response.status(400).send("Internal Server Error")
     } catch (e) {
-      console.log(e)
+      // console.log(e)
 
       response.status(500).send("Internal Server Error")
     }
