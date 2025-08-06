@@ -34,13 +34,14 @@ const serverCode = () => {
 
   //render.ts
   export const render: IRender = async ({ path: location }) => {
-
+  //get data from route
   const initialData: THydrateContext = new Map((await Promise.all(getLoadData(location))).map(({ name, data }) => [name, data]))
 
   const html = await fs.readFile(path.resolve(__dirname, "../index.html"), "utf-8")
   const component = renderToString(
     createElement(App, {
       path: location,
+      //inject initial data
       context: initialData,
     })
   )
@@ -51,6 +52,16 @@ const serverCode = () => {
 
 const clientCode = () => {
   return `
+  //App.tsx
+  const App: ISSRApp = ({ context, path }) => {
+    return (
+      <BrowserRouter>
+        <SSRProvider value={context}>
+          <RouterProvider>{RouteConfig}</RouterProvider>
+        </SSRProvider>
+      </BrowserRouter>
+   )
+  }
       //route.ts
       export interface IPageItem {
         path: string
@@ -79,6 +90,7 @@ const clientCode = () => {
          document.getElementById("root") as any,
          createElement(App, {
              path: "/",
+             //get inject data
             context: initData(),
         })
     )

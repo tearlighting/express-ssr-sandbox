@@ -8,7 +8,7 @@ body,
   background: url("@/asset/bell.jpg") no-repeat;
 }
 .layout-container {
-  @apply grid grid-cols-[15rem_1fr] grid-rows-[5rem_1fr] h-screen;
+  @apply grid sm:grid-cols-[15rem_1fr] sm:grid-rows-[5rem_1fr] grid-cols-[10rem_1fr] grid-rows-[5rem_1fr] h-screen;
   .nav-container {
     @apply h-full overflow-hidden row-span-2 col-span-1 bg-purple-950;
   }
@@ -21,7 +21,7 @@ body,
 }
 
 .page-contain {
-  @apply h-full grid grid-rows-[40%_60%] grid-cols-1;
+  @apply min-w-[300px] h-full grid grid-rows-[40%_60%] grid-cols-1;
 
   .content {
     @apply size-full row-span-1 flex justify-center items-center;

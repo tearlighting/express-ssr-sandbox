@@ -10,7 +10,10 @@ export function Hydrate() {
       content={
         <div className="content flex flex-col text-2xl  items-center justify-center h-full">
           <p className="font-bold">{count}</p>
-          <button onClick={() => setCount(count + 1)} className=" border bg-blue-400 px-3 py-2">
+          <button
+            onClick={() => setCount(count + 1)}
+            className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-4 py-1 rounded  text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-all"
+          >
             add
           </button>
         </div>
