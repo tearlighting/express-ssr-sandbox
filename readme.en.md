@@ -22,7 +22,8 @@ This is a minimal Express + React + SSR sandbox project including:
 
 ✅ Webpack configuration record
 
-# 🚀 快速启动
+# 🚀 start
 
 pnpm install
 pnpm dev
+pnpm build
