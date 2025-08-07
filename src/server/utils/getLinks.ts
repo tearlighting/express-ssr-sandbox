@@ -1,3 +1,4 @@
+import { baseUrl } from "@/utils"
 import fs from "fs/promises"
 
 export const getLinks = async (path: string) => {
@@ -6,7 +7,7 @@ export const getLinks = async (path: string) => {
     .filter((file) => file.endsWith(".css"))
     .map(
       (file) => `
-   <link rel="stylesheet" href="/css/${file}" />
+   <link rel="stylesheet" href="${baseUrl}/css/${file}" />
    `
     )
   return scripts

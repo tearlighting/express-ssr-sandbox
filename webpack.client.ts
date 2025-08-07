@@ -10,7 +10,9 @@ const config: Configuration = {
   output: {
     path: path.resolve(__dirname, "public/"),
     filename: "js/client.[hash:5].js",
+
     // clean: true,
+    publicPath: "/express-ssr-sandbox/",
   },
   node: {
     __dirname: false,

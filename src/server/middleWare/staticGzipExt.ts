@@ -1,6 +1,7 @@
 import { RequestHandler } from "express"
 import path from "path"
 import fs from "fs"
+import { baseUrl } from "@/utils"
 export const staticGzipExt = (staticDir: string): RequestHandler => {
   return (req, res, next) => {
     const reqPath = req.path
@@ -22,5 +23,5 @@ const trySendGzip = (path: string, ...arg: Parameters<RequestHandler>) => {
     return
   }
   arg[1].set("Content-Encoding", "gzip")
-  arg[1].sendFile(path + ".gz")
+  arg[1].sendFile(path)
 }

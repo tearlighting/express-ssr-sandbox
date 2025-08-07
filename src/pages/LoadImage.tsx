@@ -1,6 +1,7 @@
 import { getLoadImgCode } from "@/utils/loadImg"
 import { Structure } from "../component/Structure"
 import bell from "@/asset/bell.jpg"
+
 const { clientCodeStr, webpackCodeStr } = getLoadImgCode()
 export function LoadImage() {
   return (

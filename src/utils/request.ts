@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios"
+import { baseUrl } from "."
 const enum EServer {
   url = "https://jsonplaceholder.typicode.com",
 }
@@ -13,6 +14,7 @@ class AxiosHelper {
       if (config.baseURL === EServer.url && config.url?.startsWith("/api")) {
         config.url = config.url?.replace("/api", "/posts")
       }
+      // console.log(config)
       return config
     })
     this._ins.interceptors.response.use((response) => {
@@ -29,7 +31,7 @@ function createRequest() {
   if (typeof window === "undefined") {
     ins = new AxiosHelper(EServer.url)
   } else {
-    ins = new AxiosHelper("/")
+    ins = new AxiosHelper(baseUrl)
   }
   return ins.request.bind(ins)
 }

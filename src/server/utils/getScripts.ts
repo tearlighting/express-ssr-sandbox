@@ -1,3 +1,4 @@
+import { baseUrl } from "@/utils"
 import fs from "fs/promises"
 
 export const getScripts = async (path: string) => {
@@ -6,7 +7,7 @@ export const getScripts = async (path: string) => {
     .filter((file) => file.endsWith(".js"))
     .map(
       (file) => `
- <script src="/js/${file}"></script>
+ <script src="${baseUrl}/js/${file}"></script>
   `
     )
   return scripts

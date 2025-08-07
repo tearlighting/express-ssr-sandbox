@@ -3,10 +3,11 @@ import { BrowserRouter } from "react-router"
 import "@/style"
 import { RouterProvider } from "@/context/RouterContext"
 import { SSRProvider } from "@/context/SSRContext"
+import { baseUrl } from "@/utils"
 
 const App: ISSRApp = ({ context, path }) => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={baseUrl}>
       <SSRProvider value={context}>
         <RouterProvider>{RouteConfig}</RouterProvider>
       </SSRProvider>

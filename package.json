@@ -7,8 +7,8 @@
     "dev": "nodemon",
     "start": "nodemon --watch src ts-node -r tsconfig-paths/register src/index.ts",
     "client": "node --require ts-node/register ./node_modules/webpack/bin/webpack.js --config webpack.client.ts",
-    "dev:server": "node --require ts-node/register ./node_modules/webpack/bin/webpack.js --config webpack.server.ts",
-    "build": "node --require ts-node/register ./node_modules/webpack/bin/webpack.js --config webpack.client.ts && node --require ts-node/register ./node_modules/webpack/bin/webpack.js --config webpack.server.ts "
+    "dev:build": "node --inspect dist/server",
+    "build": "node --require ts-node/register ./node_modules/webpack/bin/webpack.js --config webpack.client.ts && node --require ts-node/register ./node_modules/webpack/bin/webpack.js --config webpack.server.ts --env externals=none"
   },
   "keywords": [],
   "author": "",
